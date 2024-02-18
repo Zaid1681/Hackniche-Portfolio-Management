@@ -14,6 +14,7 @@ import {
   Typography,
   Switch,
 } from "antd";
+import { useSelector } from "react-redux";
 
 import {
   SearchOutlined,
@@ -255,6 +256,7 @@ function Header({
 
   const showDrawer = () => setVisible(true);
   const hideDrawer = () => setVisible(false);
+  const currentUser = useSelector((state) => state.user);
 
   return (
     <>

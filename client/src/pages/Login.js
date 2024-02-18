@@ -1,12 +1,15 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import axios from "axios";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../Redux/slices/user-slice"; // Update the path
+import { useSyncExternalStore } from "some-library";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const history = useHistory();
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -14,26 +17,34 @@ const Login = () => {
     try {
       const userData = { email, userPassword };
 
-      const data = await axios.post("http://localhost:5000/api/user/login", userData);
+      const data = await axios.post(
+        "http://localhost:5000/api/user/login",
+        userData
+      );
 
       setEmail(data.data.email);
+
       setUserPassword(data.data.userPassword);
+      console.log("==>", data.data);
+      dispatch(
+        setUserData({
+          data: data.data,
+        })
+      );
 
       console.log(data);
-
       alert("User Logged in Successful");
       history.push("/dashboard");
     } catch (error) {
       console.log(error);
     }
-  }
-
+  };
 
   return (
     <div>
       <div className="bg-grey-lighter min-h-screen flex flex-col">
         <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-          <form onSubmit={handleLogin} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+          <form className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
             <h1 className="mb-8 text-3xl text-center">Login</h1>
 
             <input
@@ -54,8 +65,11 @@ const Login = () => {
 
             <button
               type="submit"
+              onClick={handleLogin}
               className="w-full text-center py-3 rounded bg-indigo-500 text-white hover:bg-indigo-700 focus:outline-none my-1"
-            >Login</button>
+            >
+              Login
+            </button>
 
             {/* <div className="text-center text-sm text-grey-dark mt-4">
               By signing up, you agree to the
@@ -70,14 +84,18 @@ const Login = () => {
 
           <div className="text-grey-dark mt-6">
             Create an Account?
-            <a className="no-underline border-b border-blue text-blue" href="/register">
+            <a
+              className="no-underline border-b border-blue text-blue"
+              href="/register"
+            >
               &nbsp;Login
-            </a>.
+            </a>
+            .
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Login;

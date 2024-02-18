@@ -29,8 +29,8 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route exact path component={Landing} />
-        <Route path="/login" exact component={Login} />
+        <Route index path component={<Landing />} />
+        <Route path="/login" exact component={<Login />} />
         <Route path="/register" exact component={SignIn} />
         <Main>
           <Route exact path="/dashboard" component={Home} />
@@ -38,7 +38,11 @@ function App() {
           <Route exact path="/stockgraph" component={StockGraph} />
           <Route exact path="/newsfeed" component={NewsFeed} />
           <Route exact path="/riskparameters" component={RiskParameters} />
-          <Route exact path="/portfoliorebalancing" component={PortfolioRebalancing} />
+          <Route
+            exact
+            path="/portfoliorebalancing"
+            component={PortfolioRebalancing}
+          />
           <Route exact path="/tables" component={Tables} />
           <Route exact path="/billing" component={Billing} />
           <Route exact path="/rtl" component={Rtl} />
@@ -50,7 +54,7 @@ function App() {
           <Route exact path="/orders" component={Orders} />
           <Route exact path="/payment" component={PaymentChange} />
           <Route exact path="/carts" component={Carts} />
-          {/* <Redirect from="*" to="/dashboard" /> */}
+          <Redirect from="*" to="/dashboard" />
         </Main>
       </Switch>
     </div>
